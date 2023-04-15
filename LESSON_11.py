@@ -37,13 +37,17 @@ class Phone(Field):
         if not re.match(r"^\+?\d{9,15}$", self.value):
             raise ValueError("Invalid phone number")
 
-    def __str__(self):
-        return f"{self.__class__.__name__}: {self.value}"
+    @property
+    def value(self):
+        return self._value
 
-    def __set__(self, instance, value):
-        self.value = value
+    @value.setter
+    def value(self, value):
+        self._value = value
         self.validate()
 
+    def __str__(self):
+        return f"{self.__class__.__name__}: {self.value}"
 
 class Birthday(Field):
     DATE_FORMAT = '%d.%m.%Y'
