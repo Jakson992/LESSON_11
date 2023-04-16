@@ -140,11 +140,15 @@ def hello(*args):
 
 @input_error
 def add(*args):
-    _, name, phone = args[0].split()
-    record = Record(name)
-    record.add_phone(phone)
+    _, name, *phones = args[0].split()
+    if name in my_contacts:
+        record = my_contacts[name]
+    else:
+        record = Record(name)
+    for phone in phones:
+        record.add_phone(phone)
     my_contacts[name] = record
-    return f"Contact {name} with phone {phone} has been added."
+    return f"Contact {name} with phones {', '.join(phones)} has been added."
 
 
 @input_error
